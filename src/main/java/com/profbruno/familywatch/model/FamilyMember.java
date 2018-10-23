@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 public class FamilyMember{
@@ -13,10 +12,13 @@ public class FamilyMember{
 	@GeneratedValue
 	private Long id;
 	
-	@NotBlank
+	@Column(nullable=false)
 	private String name;
 	
-	@NotBlank
+	@Column(nullable=false, unique=true)
+	private String email;
+	
+	@Column(nullable=false)
 	private String pwd;
 	
 	@OneToMany(
