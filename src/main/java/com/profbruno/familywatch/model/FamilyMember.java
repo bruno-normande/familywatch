@@ -58,6 +58,14 @@ public class FamilyMember{
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 	
 	
