@@ -39,5 +39,14 @@ public class Phone {
 		this.number = number;
 	}
 
+	public List<Position> getPositions() {
+		return positions;
+	}
+
+	public void setPositions(List<Position> positions) {
+		this.positions.clear();
+		this.positions.addAll(positions);
+	}
+
 	
 }
