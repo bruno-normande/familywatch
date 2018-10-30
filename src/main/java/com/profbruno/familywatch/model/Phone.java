@@ -1,5 +1,8 @@
 package com.profbruno.familywatch.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -12,6 +15,13 @@ public class Phone {
 	
 	@NotBlank
 	private String number;
+	
+	@OneToMany(
+			mappedBy="phone",
+			cascade=CascadeType.ALL,
+			orphanRemoval=true
+			)
+	private List<Position> positions = new ArrayList<>();
 
 	public Long getId() {
 		return id;
