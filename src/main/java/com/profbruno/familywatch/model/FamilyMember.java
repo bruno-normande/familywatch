@@ -56,7 +56,8 @@ public class FamilyMember{
 	}
 
 	public void setPhones(List<Phone> phones) {
-		this.phones = phones;
+		this.phones.clear();
+		this.phones.addAll(phones);
 	}
 
 	public String getEmail() {

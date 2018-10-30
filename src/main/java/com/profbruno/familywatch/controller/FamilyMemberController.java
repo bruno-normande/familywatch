@@ -42,6 +42,7 @@ public class FamilyMemberController {
 					familyMember.setName(familyMemberRequest.getName());
 					familyMember.setPwd(familyMemberRequest.getPwd());
 					familyMember.setPhones(familyMemberRequest.getPhones());
+					familyMember.setEmail(familyMemberRequest.getEmail());
 					return familyMemberRepository.save(familyMember);
 		}).orElseThrow(() -> new ResourceNotFoundException("FamilyMember not found: " + familyMemberId));
 	}
