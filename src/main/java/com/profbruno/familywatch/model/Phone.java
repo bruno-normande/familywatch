@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Phone {
 	
@@ -39,10 +41,12 @@ public class Phone {
 		this.number = number;
 	}
 
+	@JsonIgnore
 	public List<Position> getPositions() {
 		return positions;
 	}
 
+	@JsonIgnore
 	public void setPositions(List<Position> positions) {
 		this.positions.clear();
 		this.positions.addAll(positions);

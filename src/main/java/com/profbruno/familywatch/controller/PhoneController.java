@@ -5,6 +5,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +41,15 @@ public class PhoneController {
 				.map(phone -> {
 					phone.setNumber(phoneRequest.getNumber());
 					return phoneRepository.save(phone);
+				}).orElseThrow(() -> new ResourceNotFoundException("Phone not found:" + phoneId));
+	}
+	
+	@DeleteMapping("/phone/{phoneId}")
+	public ResponseEntity<?> deletePhone(@PathVariable Long phoneId) {
+		return phoneRepository.findById(phoneId)
+				.map(phone -> {
+					phoneRepository.delete(phone);
+					return ResponseEntity.ok().build();
 				}).orElseThrow(() -> new ResourceNotFoundException("Phone not found:" + phoneId));
 	}
 

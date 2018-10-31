@@ -18,6 +18,11 @@ public class Position {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Coordinate coordinate;
+	
+	@PrePersist
+	protected void onCreate() {
+		this.timestamp = LocalDateTime.now();
+	}
 
 	public Long getId() {
 		return id;
