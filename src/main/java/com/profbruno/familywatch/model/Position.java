@@ -13,7 +13,7 @@ public class Position {
 	
 	private LocalDateTime timestamp;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	private Phone phone;
 	
 	@OneToOne(cascade=CascadeType.ALL)

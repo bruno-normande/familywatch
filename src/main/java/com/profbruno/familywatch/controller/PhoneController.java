@@ -29,6 +29,12 @@ public class PhoneController {
 		return phoneRepository.findAll(pageable);
 	}
 	
+	@GetMapping("/phone/{phoneId}")
+	public Phone getPhone(@PathVariable Long phoneId) {
+		return phoneRepository.findById(phoneId)
+				.orElseThrow(() -> new ResourceNotFoundException("Phone not found:" + phoneId));
+	}
+	
 	@PostMapping("/phone")
 	public Phone createPhone(@Valid @RequestBody Phone phone) {
 		return phoneRepository.save(phone);

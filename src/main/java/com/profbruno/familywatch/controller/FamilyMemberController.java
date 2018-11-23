@@ -29,6 +29,12 @@ public class FamilyMemberController {
 		return familyMemberRepository.findAll(pageable);
 	}
 	
+	@GetMapping("/familymember/{familyMemberId}")
+	public FamilyMember getFamilyMember(@PathVariable Long familyMemberId){
+		return familyMemberRepository.findById(familyMemberId).orElseThrow(
+				() -> new ResourceNotFoundException("FamilyMember not found: " + familyMemberId));
+	}
+	
 	@PostMapping("/familymember")
 	public FamilyMember createFamilyMember(@Valid @RequestBody FamilyMember familyMember) {
 		return familyMemberRepository.save(familyMember);

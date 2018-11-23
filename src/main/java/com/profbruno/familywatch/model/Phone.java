@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Phone {
@@ -24,6 +25,9 @@ public class Phone {
 			orphanRemoval=true
 			)
 	private List<Position> positions = new ArrayList<>();
+	
+	@ManyToOne
+	private FamilyMember owner;
 
 	public Long getId() {
 		return id;
@@ -46,10 +50,17 @@ public class Phone {
 		return positions;
 	}
 
-	@JsonIgnore
 	public void setPositions(List<Position> positions) {
 		this.positions.clear();
 		this.positions.addAll(positions);
+	}
+
+	public FamilyMember getOwner() {
+		return owner;
+	}
+
+	public void setOwner(FamilyMember owner) {
+		this.owner = owner;
 	}
 
 	

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class FamilyMember{
 
@@ -22,9 +24,11 @@ public class FamilyMember{
 	private String pwd;
 	
 	@OneToMany(
+			mappedBy = "owner",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 	)
+	@JsonBackReference
 	private List<Phone> phones = new ArrayList<>();
 
 	public Long getId() {

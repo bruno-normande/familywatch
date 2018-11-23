@@ -28,6 +28,12 @@ public class PositionController {
 		return positionRepository.findAll(pageable);
 	}
 	
+	@GetMapping("/position/{positionId}")
+	public Position getposition(@PathVariable Long positionId) {
+		return positionRepository.findById(positionId)
+				.orElseThrow(() -> new ResourceNotFoundException("position not found:" + positionId));
+	}
+	
 	@PostMapping("/position")
 	public Position createposition(@Valid @RequestBody Position position) {
 		return positionRepository.save(position);
