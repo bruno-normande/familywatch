@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.profbruno.familywatch.exception.ResourceNotFoundException;
 import com.profbruno.familywatch.model.FamilyMember;
+import com.profbruno.familywatch.model.Phone;
 import com.profbruno.familywatch.repository.FamilyMemberRepository;
 
 @RestController
@@ -40,15 +41,26 @@ public class FamilyMemberController {
 		return familyMemberRepository.save(familyMember);
 	}
 	
+	@PostMapping("familymember/{familyMemberId}/addphone")
+	public FamilyMember addPhone(@PathVariable Long familyMemberId,
+									@Valid @RequestBody Phone phone) {
+		return familyMemberRepository.findById(familyMemberId)
+				.map(familyMember -> {
+					familyMember.addPhone(phone);
+					phone.setOwner(familyMember);
+					return familyMemberRepository.save(familyMember);
+				}).orElseThrow(() -> new ResourceNotFoundException("FamilyMember not found: " + familyMemberId));
+	}
+	
 	@PutMapping("/familymember/{familyMemberId}")
 	public FamilyMember updateFamilyMember(@PathVariable Long familyMemberId,
             								@Valid @RequestBody FamilyMember familyMemberRequest) {
 		return familyMemberRepository.findById(familyMemberId)
 				.map(familyMember -> {
 					familyMember.setName(familyMemberRequest.getName());
-					familyMember.setPwd(familyMemberRequest.getPwd());
+					familyMember.setPassword(familyMemberRequest.getPassword());
 					familyMember.setPhones(familyMemberRequest.getPhones());
-					familyMember.setEmail(familyMemberRequest.getEmail());
+					familyMember.setUsername(familyMemberRequest.getUsername());
 					return familyMemberRepository.save(familyMember);
 		}).orElseThrow(() -> new ResourceNotFoundException("FamilyMember not found: " + familyMemberId));
 	}

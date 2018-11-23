@@ -55,6 +55,7 @@ public class Phone {
 		this.positions.addAll(positions);
 	}
 
+	@JsonIgnore
 	public FamilyMember getOwner() {
 		return owner;
 	}
