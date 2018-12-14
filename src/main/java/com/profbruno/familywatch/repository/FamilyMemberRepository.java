@@ -7,5 +7,6 @@ import com.profbruno.familywatch.model.FamilyMember;
 
 @Repository
 public interface FamilyMemberRepository extends JpaRepository<FamilyMember,Long>{
+	public FamilyMember findByUsername(String username);
 
 }

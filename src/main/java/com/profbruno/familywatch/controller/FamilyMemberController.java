@@ -1,5 +1,7 @@
 package com.profbruno.familywatch.controller;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,11 @@ public class FamilyMemberController {
 	@GetMapping("/familymember")
 	public Page<FamilyMember> getFamilyMembers(Pageable pageable){
 		return familyMemberRepository.findAll(pageable);
+	}
+	
+	@PostMapping("/login")
+	public FamilyMember login(@RequestBody Map<String, String> json){
+		return familyMemberRepository.findByUsername(json.get("username"));
 	}
 	
 	@GetMapping("/familymember/{familyMemberId}")
