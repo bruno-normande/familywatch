@@ -3,15 +3,20 @@ package com.profbruno.familywatch.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import static java.util.stream.Collectors.toList;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
-public class FamilyMember /*implements UserDetails*/{
+public class FamilyMember implements UserDetails{
 
 	@Id
 	@GeneratedValue
@@ -24,7 +29,11 @@ public class FamilyMember /*implements UserDetails*/{
 	private String username;
 	
 	@Column(nullable=false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 	
 	@OneToMany(
 			mappedBy = "owner",
@@ -58,32 +67,32 @@ public class FamilyMember /*implements UserDetails*/{
 		this.phones.addAll(phones);
 	}
 
-//	@JsonIgnore
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		return new ArrayList<>();
-//	}
-
+	@Override
 	public String getPassword() {
 		return this.password;
 	}
 
+	@Override
 	public String getUsername() {
 		return this.username;
 	}
 
+	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return true;
 	}
@@ -98,6 +107,19 @@ public class FamilyMember /*implements UserDetails*/{
 
 	public void addPhone(@Valid Phone phone) {
 		this.phones.add(phone);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 	
 	

@@ -1,13 +1,12 @@
 package com.profbruno.familywatch.controller;
 
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +22,9 @@ import com.profbruno.familywatch.repository.FamilyMemberRepository;
 
 @RestController
 public class FamilyMemberController {
+	
+	@Autowired
+    PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private FamilyMemberRepository familyMemberRepository;
@@ -30,11 +32,6 @@ public class FamilyMemberController {
 	@GetMapping("/familymember")
 	public Page<FamilyMember> getFamilyMembers(Pageable pageable){
 		return familyMemberRepository.findAll(pageable);
-	}
-	
-	@PostMapping("/login")
-	public FamilyMember login(@RequestBody Map<String, String> json){
-		return familyMemberRepository.findByUsername(json.get("username"));
 	}
 	
 	@GetMapping("/familymember/{familyMemberId}")
@@ -45,6 +42,8 @@ public class FamilyMemberController {
 	
 	@PostMapping("/familymember")
 	public FamilyMember createFamilyMember(@Valid @RequestBody FamilyMember familyMember) {
+		String encoded = passwordEncoder.encode(familyMember.getPassword());
+		familyMember.setPassword(encoded);
 		return familyMemberRepository.save(familyMember);
 	}
 	
